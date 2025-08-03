@@ -1,1 +1,364 @@
-# KIIz
+<>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Қыз жібек</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #f0f8ff;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        
+        .image-item {
+            position: relative;
+            cursor: pointer;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            aspect-ratio: 1/1;
+            background-color: #fff;
+            transform: rotate(0deg);
+        }
+        
+        .image-item:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+        
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .question-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .question-content {
+            background-color: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 700px;
+            width: 80%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .question-text {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            line-height: 1.4;
+        }
+        
+        .answer {
+            font-size: 24px;
+            color: #27ae60;
+            font-weight: bold;
+            margin-top: 30px;
+            display: none;
+            line-height: 1.5;
+            animation: slideUp 0.5s;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .timer {
+            font-size: 24px;
+            color: #e74c3c;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #7f8c8d;
+            transition: transform 0.3s;
+        }
+        
+        .close-btn:hover {
+            transform: rotate(90deg);
+            color: #e74c3c;
+        }
+        
+        .music-control {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: #2c3e50;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            z-index: 100;
+            transition: all 0.3s;
+        }
+        
+        .music-control:hover {
+            transform: scale(1.1);
+            background-color: #34495e;
+        }
+        
+        .music-control svg {
+            width: 30px;
+            height: 30px;
+            fill: white;
+        }
+        
+        /* Random positioning for images */
+        .image-item:nth-child(1) { transform: rotate(-5deg); }
+        .image-item:nth-child(2) { transform: rotate(3deg); }
+        .image-item:nth-child(3) { transform: rotate(-7deg); }
+        .image-item:nth-child(4) { transform: rotate(2deg); }
+        .image-item:nth-child(5) { transform: rotate(-3deg); }
+        .image-item:nth-child(6) { transform: rotate(6deg); }
+        .image-item:nth-child(7) { transform: rotate(-2deg); }
+        .image-item:nth-child(8) { transform: rotate(4deg); }
+        .image-item:nth-child(9) { transform: rotate(-6deg); }
+        .image-item:nth-child(10) { transform: rotate(1deg); }
+        .image-item:nth-child(11) { transform: rotate(-4deg); }
+        .image-item:nth-child(12) { transform: rotate(5deg); }
+        .image-item:nth-child(13) { transform: rotate(-1deg); }
+        .image-item:nth-child(14) { transform: rotate(7deg); }
+    </style>
+</head>
+<body>
+    <h1>Қыз Жібек жыры</h1>
+    
+    <div class="image-grid">
+        <!-- 14 изображений -->
+        <div class="image-item" data-question="Қыз Жібек қандай жыр?" data-answer="Ғашықтық-романтикалық жыр">
+            <img src="123.jpg" alt="Сурет 1">
+        </div>
+        <div class="image-item" data-question="Қыз Жібек жырында қазақ халқының қай кездегі тарихы суреттелген?" data-answer="XVI–XVII ғасырлардағы өмірі">
+            <img src="кейіпкерлер.jpg" alt="Сурет 2">
+        </div>
+        <div class="image-item" data-question="Қыз Жібек жыры қашан жарық көрген?" data-answer="1900 жылы Қазан қаласында">
+            <img src="А мен Т.jpg" alt="Сурет 3">
+        </div>
+        <div class="image-item" data-question="Жырдың туған жерін атаңдар?" data-answer="Жағалбайлы елі, Ақжайық өңірі">
+            <img src="Бекежан.jpg" alt="Сурет 4">
+        </div>
+        <div class="image-item" data-question="Жырдың негізгі кейіпкерлері кімдер?" data-answer="Төлеген, Жібек, Бекежан, Базарбай, Сансызбай, Қаршыға, Сырлыбай">
+            <img src="БТ.jpg" alt="Сурет 5">
+        </div>
+        <div class="image-item" data-question="Жыр мазмұнының негізгі арқауы не?" data-answer="Махаббат, адалдық, ерлік пен опасыздық">
+            <img src="Ж пен Т.jpg" alt="Сурет 6">
+        </div>
+        <div class="image-item" data-question="Қыз Жібек бейнесі неше көріністе суреттелген?" data-answer="5–6 көріністе">
+            <img src="Жібек пен Сансызбай.jpg" alt="Сурет 7">
+        </div>
+        <div class="image-item" data-question="Жырдағы Базарбай кім?" data-answer="Төлеген мен Сансызбайдың әкесі, бай">
+            <img src="Жібек пен Т.jpg" alt="Сурет 8">
+        </div>
+        <div class="image-item" data-question="Төлеген, Сансызбай деген кімдер?" data-answer="Төлеген – Базарбайдың үлкен ұлы, Сансызбай – інісі">
+            <img src="Қалыңд.jpg" alt="Сурет 9">
+        </div>
+        <div class="image-item" data-question="Жібек туралы Төлеген кімнен естиді?" data-answer="Саудагер шалдан">
+            <img src="Шеге мен Жібек.jpg" alt="Сурет 10">
+        </div>
+        <div class="image-item" data-question="Төлеген мен Жібек қалай кездеседі?" data-answer="Қаршыға арқылы, көште және отауда">
+            <img src="кейіпкер.jpg" alt="Сурет 11">
+        </div>
+        <div class="image-item" data-question="Бекежан деген кім?" data-answer="Опасыз батыр, Төлегенді өлтіреді">
+            <img src="Шеге мен төлеген.jpg" alt="Сурет 12">
+        </div>
+        <div class="image-item" data-question="Базарбай баласының тілегіне қалай қарайды?" data-answer="Қарсы болады, уәдеге көндіргісі келеді">
+            <img src="Әйел.jpg" alt="Сурет 13">
+        </div>
+        <div class="image-item" data-question="Жырда Жібектің тағдыры туралы не айтылған?" data-answer="Төлегенді сүйеді, кейін Сансызбаймен қосылады">
+            <img src="санс.jpg" alt="Сурет 14">
+        </div>
+    </div>
+    
+    <div class="question-modal" id="questionModal">
+        <div class="question-content">
+            <span class="close-btn">&times;</span>
+            <div class="question-text" id="questionText"></div>
+            <div class="timer" id="timer">10 секунд қалды</div>
+            <div class="answer" id="correctAnswer"></div>
+        </div>
+    </div>
+    
+    <div class="music-control" id="musicControl">
+        <svg xmlns=" " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        </svg>
+    </div>
+    
+    <audio id="backgroundMusic" loop>
+        <source src="ЕРКЕСЫЛҚЫМ.mp3" type="audio/mpeg">
+        
+    </audio>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageItems = document.querySelectorAll('.image-item');
+            const questionModal = document.getElementById('questionModal');
+            const questionText = document.getElementById('questionText');
+            const correctAnswer = document.getElementById('correctAnswer');
+            const timerElement = document.getElementById('timer');
+            const closeBtn = document.querySelector('.close-btn');
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            const musicControl = document.getElementById('musicControl');
+            
+            let countdown;
+            let timeLeft = 10;
+            let isMusicPlaying = false;
+            
+            // Fullscreen mode
+            function toggleFullScreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(err => {
+                        console.log(`Fullscreen error: ${err.message}`);
+                    });
+                }
+            }
+            
+            // Try to enter fullscreen when page loads
+            toggleFullScreen();
+            
+            // Music control
+            musicControl.addEventListener('click', function() {
+                if (isMusicPlaying) {
+                    backgroundMusic.pause();
+                    musicControl.innerHTML = '<" ';
+                } else {
+                    backgroundMusic.play();
+                    musicControl.innerHTML = '<"';
+                }
+                isMusicPlaying = !isMusicPlaying;
+                backgroundMusic.volume = 0.1;
+            });
+            
+            // Try to autoplay music with user interaction
+            document.addEventListener('click', function initAudio() {
+                if (!isMusicPlaying) {
+                    backgroundMusic.play().then(() => {
+                        isMusicPlaying = true;
+                        musicControl.innerHTML = '<svg xmlns="" ';
+                    }).catch(e => {
+                        console.log("Автовоспроизведение не сработало:", e);
+                    });
+                }
+                document.removeEventListener('click', initAudio);
+            });
+            
+            // Обработка кликов по изображениям
+            imageItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const question = this.getAttribute('data-question');
+                    const answer = this.getAttribute('data-answer');
+                    
+                    questionText.textContent = question;
+                    correctAnswer.textContent = `Дұрыс жауап: ${answer}`;
+                    correctAnswer.style.display = 'none';
+                    
+                    // Сброс и запуск таймера
+                    clearInterval(countdown);
+                    timeLeft = 10;
+                    updateTimer();
+                    
+                    questionModal.style.display = 'flex';
+                    
+                    // Запуск таймера
+                    countdown = setInterval(function() {
+                        timeLeft--;
+                        updateTimer();
+                        
+                        if (timeLeft <= 0) {
+                            clearInterval(countdown);
+                            correctAnswer.style.display = 'block';
+                        }
+                    }, 1000);
+                });
+            });
+            
+            // Обновление таймера
+            function updateTimer() {
+                timerElement.textContent = `${timeLeft} секунд қалды`;
+            }
+            
+            // Закрытие модального окна
+            closeBtn.addEventListener('click', function() {
+                questionModal.style.display = 'none';
+                clearInterval(countdown);
+            });
+            
+            // Закрытие при клике вне модального окна
+            questionModal.addEventListener('click', function(e) {
+                if (e.target === questionModal) {
+                    questionModal.style.display = 'none';
+                    clearInterval(countdown);
+                }
+            });
+            
+            // Add some random positioning to images
+            imageItems.forEach(item => {
+                const randomX = Math.random() * 20 - 10;
+                const randomY = Math.random() * 20 - 10;
+                item.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${Math.random() * 10 - 5}deg)`;
+            });
+        });
+    </script>
+</body>
+</html>
